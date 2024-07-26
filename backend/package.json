@@ -4,10 +4,9 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "start": "node index.mjs",
-    "build": "cd client && npm run build",
+    "start": "node src/index.mjs",
+    "build" : "npm run build",
     "render-build":"npm install && npm run build"
-    
   },
   "repository": {
     "type": "git"
