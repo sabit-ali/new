@@ -8,8 +8,7 @@
     "test": "react backend"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sabit-ali/react.git"
+    "type": "git"
   },
   "keywords": [
     "backend"

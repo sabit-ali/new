@@ -37,7 +37,20 @@ export const CreateThread = asyncHandler(async (req,res)=>{
         title,
         avatar : avatarImg?.url || '', 
         description,
+        author,
+        like,
     })
+
+//    const newThread = await Thread.findOneAndUpdate(
+//     req.user._id,
+//     {
+    
+//             title,
+//             avatar : avatarImg?.url || '', 
+//             description,
+        
+        
+//     }, { upsert: true })
 
     if(!newThread){
         return res.status(200).json({

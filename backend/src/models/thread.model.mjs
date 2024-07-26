@@ -19,12 +19,14 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
         required : true,
         trim : true,
     },
-    author : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    },
+    author :[
+        {
+            type : mongoose.Types.ObjectId,
+            ref : "User"
+        }
+    ],
     like : {
-        type : mongoose.Schema.Types.ObjectId,
+        type : mongoose.Types.ObjectId,
         ref : "User"
     }
 

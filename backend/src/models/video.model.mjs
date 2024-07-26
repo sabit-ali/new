@@ -31,10 +31,12 @@ const videoSchema = new Schema(
             type: Boolean,
             default: true
         },
-        owner: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }
+        owner: [
+            {
+                type : mongoose.Types.ObjectId,
+                ref: "User"
+            }
+        ]
 
     }, 
     {
