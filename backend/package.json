@@ -4,8 +4,8 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.mjs",
-    "test": "react backend"
+    "start": "node src/index.mjs",
+    "render-build":"npm install && npm run build"
   },
   "repository": {
     "type": "git"
