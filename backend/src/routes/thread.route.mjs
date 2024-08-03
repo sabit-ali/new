@@ -13,5 +13,4 @@ router.route('/upload-thread').post(verifyJWT,
 router.route('/getthreads').get(getAllThreads)
 router.route('/get-one-thread').get(getOneThred)
 
-
 export default router

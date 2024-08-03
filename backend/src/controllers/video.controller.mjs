@@ -9,7 +9,7 @@ export const CreateVideoController = asyncHandler(async (req,res)=>{
         const {title,description} = await req.body
         const thisVieo = req.files?.video[0].path;
         const thumbnailImg = req.files?.thumbnail[0].path
-    
+        const user = await req.user._id
      
         const video =  await uploadOnCloudinary(thisVieo)
         const thumbnail = await uploadOnCloudinary(thumbnailImg)
@@ -39,6 +39,14 @@ export const CreateVideoController = asyncHandler(async (req,res)=>{
 
          await newVideo.save()
         console.log("succ :", newVideo)
+        await User.findByIdAndUpdate(
+            user,
+            {
+              $push : {video_info : newVideo._id}
+            },{new : true}
+        )
+
+       
          return res.status(200).json(
              new ApiResponse(201,"upload successfully ")
          )

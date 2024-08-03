@@ -44,7 +44,6 @@ export default function SearchDialog() {
       setData([])
     }
 
-    console.log("dataIs", data)
     return () => {
       abortController.abort()
     }

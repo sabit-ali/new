@@ -1,6 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CardIs } from './Card';
+
 
 interface Thread {
   _id: string;
@@ -8,7 +10,7 @@ interface Thread {
   description: string;
   imageSrc: string;
   href: string;
-  avatar : string
+  avatar: string;
 }
 
 export default function ThreadsCards() {
@@ -19,17 +21,13 @@ export default function ThreadsCards() {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/v1/thread/getthreads', {
-          params: {
-            pageNumber: 1
-          },
-          cancelToken: cancelTokenSource.token
+          params: { pageNumber: 1 },
+          cancelToken: cancelTokenSource.token,
         });
         setThreads(response.data.data);
-      } catch (error:any) {
+      } catch (error: any) {
         if (axios.isCancel(error)) {
-          console.log('Request canceled', error.message); // Handle if request is canceled
-        } else {
-          console.log('Error:', error.message); // Handle other errors
+          // Handle request cancellation
         }
       }
     };
@@ -37,35 +35,32 @@ export default function ThreadsCards() {
     fetchData();
 
     return () => {
-      cancelTokenSource.cancel('Component unmounted'); // Cancel the request when component unmounts
+      cancelTokenSource.cancel('Component unmounted');
     };
-  }, [cancelTokenSource]);
+  }, []);
+
+
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Threads posts</h2>
 
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+    <div className=' py-2 px-2'>
+      <h1 className=' text-2xl font-serif mb-1'>
+        Threads Posts
+      </h1>
+              <div className="grid gap-4 px-4 mx-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {threads.map((thread) => (
-            <Link key={thread._id} to={`/onethread/${thread._id}`} className=" ">
-                <div className="group relative">
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                <img
-                  alt={thread.title}
-                  src={thread.avatar}
-                  className="h-[300px] w-full object-cover object-center lg:h-full lg:w-full"
-                />
-              </div>
-              <div className=" flex flex-col text-center space-y-1 bg-black py-1 px-1 justify-between">
-                <h2 className="text-green-500 text-2xl font-serif">{thread.title}</h2>
-                <p className="text-sm text-neutral-400 font-medium ">{thread.description}</p>
-              </div>
+            <div key={thread._id} >
+              <Link to={`/onethread/${thread._id}`} >
+              <CardIs 
+              title={thread.title}
+              description={thread.description}
+              avatar={thread.avatar}
+               />
+              </Link>
             </div>
-            </Link>
           ))}
         </div>
-      </div>
     </div>
+
   );
 }

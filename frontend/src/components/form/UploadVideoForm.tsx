@@ -11,9 +11,10 @@ import { Loader2 } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { Textarea } from '../ui/textarea'
+import Accesstoken from '@/utils/AccessToken'
 
 export default function UploadVideoForm() {
-
+  const accessToken = Accesstoken()
   const [isLoading , setIsLoading] = useState(false)
   const [file,setFile] = useState<File[]>([])
   const [thum,setThumbanil] = useState<File[]>([])
@@ -40,17 +41,22 @@ export default function UploadVideoForm() {
 
 
     try {
-      await axios.post('/api/v1/videos/upload',formData)
+      await axios.post('/api/v1/videos/upload',formData,{
+        headers: {
+          Authorization: `Bearer ${accessToken}` // Set the Authorization header
+      },
+      withCredentials: true, // Include credentials if needed
+      })
       .then((data)=>{
         setIsLoading(false)
-        console.log("data",data)
+      
         toast.success(data.data.message)
         navigate("/video")
       })
     } catch (error:any) {
       setIsLoading(false)
       toast.error(error.message)
-      console.log("error not Registing",error)
+  
     }
   }
 

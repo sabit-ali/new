@@ -5,7 +5,7 @@ import { verifyEmailWithResend } from "../resend.mjs";
 import { ApiError, ApiResponse, asyncHandler } from "../utils/apiHelpers.mjs";
 import bcrypt from 'bcryptjs'
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs";
-
+import { io } from "../../index.mjs";
 
 export const generateAccessTokenAndRefreshTokens = async (userId)=>{
     try {
@@ -24,6 +24,54 @@ export const generateAccessTokenAndRefreshTokens = async (userId)=>{
 }
 
 // User Register here,
+
+export const refreshToken = asyncHandler(async (req, res) => {
+    const token = req.cookies?.refreshToken || req.header("Authorization")?.replace("Bearer ", "");
+  
+    if (!token) {
+      throw new ApiError(401, "No refresh token provided");
+    }
+  
+    if (!process.env.REFRESH_TOKEN_SECRET) {
+      throw new ApiError(500, "Server configuration error");
+    }
+  
+    try {
+      const decodedToken = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+  
+      const user = await User.findById(decodedToken._id).select("-password -refreshToken");
+  
+      if (!user) {
+        throw new ApiError(401, "Invalid refresh token");
+      }
+  
+      const {accessToken,refreshToken} =  await generateAccessTokenAndRefreshTokens(user._id)
+      
+      const options = {
+        httpOnly : true,
+        secure : true,
+      }
+
+      return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new ApiResponse(201,
+            {
+                user : loggedInUser, accessToken , refreshToken
+            },
+            "User logged in Successfully "
+        )
+    )
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        throw new ApiError(401, "Refresh token expired");
+      }
+      throw new ApiError(401, error.message || "Invalid refresh token");
+    }
+  });
+  
 
 export const UserRegister = async (req,res)=>{
     try {
@@ -189,7 +237,6 @@ export const updateAccountDetails = asyncHandler(async(req, res) => {
     const {name, email} = req.body
 
     try {
-        console.log("name",name)
         if (!name || !email) {
             throw new ApiError(400, "All fields are required")
         }
@@ -231,7 +278,7 @@ export const updateAvatarProfile = asyncHandler(async (req,res)=>{
             message : "avatar file uploding error to fetch  !"
         })
     }
-     await User.findByIdAndUpdate(
+    const avatarUpdated = await User.findByIdAndUpdate(
       req.user._id,
         {
             $set : {
@@ -241,9 +288,48 @@ export const updateAvatarProfile = asyncHandler(async (req,res)=>{
         {new : true}
     ).select('-password')
 
+    io.emit('updateProfileAvatar', avatarUpdated);
+
+
     return res.status(200).json({
         success:true,
         message : "Profile avatar change successfully !"
     })
 
+})
+
+export const getProfileChannel = asyncHandler(async(req,res)=>{
+    const {username} = req.params;
+
+  const user =   await User.aggregate([
+    {
+        $match: {
+            username: username?.toLowerCase()
+        }
+    },
+    {
+        $lookup:{
+            from:"threads",
+            localField:"threads_info",
+            foreignField:"_id",
+            as : "threadInside"
+        }
+    },
+    {
+        $lookup:{
+            from:"videos",
+            localField:"video_info",
+            foreignField:"_id",
+            as :"videos"
+        }
+    }
+])
+
+
+    return res.status(200).json({
+        success:true,
+        username : username,
+        data : user,
+        message : "success"
+    })
 })

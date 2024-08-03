@@ -20,12 +20,13 @@ app.use(cookieParser())
 import userRouter from './src/routes/user.route.mjs'
 import videoRouter from './src/routes/video.route.mjs'
 import Thread from './src/routes/thread.route.mjs'
+import FeatureUser from './src/routes/featureUser.mjs'
  
 //api define
 
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/videos',videoRouter)
 app.use('/api/v1/thread',Thread)
-
+app.use('/api/v2/feature',FeatureUser)
 
 export {app}

@@ -1,4 +1,5 @@
 import { Thread } from "../models/thread.model.mjs"
+import { User } from "../models/user.modle.mjs"
 import { asyncHandler } from '../utils/apiHelpers.mjs'
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 
@@ -37,20 +38,15 @@ export const CreateThread = asyncHandler(async (req,res)=>{
         title,
         avatar : avatarImg?.url || '', 
         description,
-        author,
-        like,
+        author : user,
     })
 
-//    const newThread = await Thread.findOneAndUpdate(
-//     req.user._id,
-//     {
-    
-//             title,
-//             avatar : avatarImg?.url || '', 
-//             description,
-        
-        
-//     }, { upsert: true })
+    await User.findByIdAndUpdate(
+        user,
+        { $push: { threads_info: newThread._id } },
+        { new: true } // Returns the updated document
+    )
+
 
     if(!newThread){
         return res.status(200).json({
@@ -130,3 +126,4 @@ export const getOneThred = asyncHandler(async (req,res)=>{
         })
     }
 })
+

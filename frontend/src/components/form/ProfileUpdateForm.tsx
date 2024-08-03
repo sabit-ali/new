@@ -6,9 +6,14 @@ import axios from 'axios'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Accesstoken from '@/utils/AccessToken'
 
 
 export default function ProfileUpdateForm() {
+    const navigate = useNavigate()
+    const accessToken = Accesstoken()
     const form = useForm({
         resolver: zodResolver(profileUpdateSchema),
         defaultValues: {
@@ -19,17 +24,28 @@ export default function ProfileUpdateForm() {
 
 
     const onSubmit = async (data: z.infer<typeof profileUpdateSchema>) => {
-        (async () => {
-            await axios.post(`/api/v1/users/profile-update`,{
-                name : data.name,
-                email : data.email
-            } )
-                .then((data) => {
-                    console.log("data", data)
-                })
-        })()
-    }
-
+        try {
+            await axios.post(
+                `/api/v1/users/profile-update`,
+                {
+                    name: data.name,
+                    email: data.email
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}` // Set the Authorization header
+                    },
+                    withCredentials: true, // Include credentials if needed
+                }
+            );
+            toast.success("User updated successfully");
+            navigate('/'); // Navigate to home or another page after successful update
+        } catch (error) {
+            console.error('Error updating user:', error);
+            toast.error("Failed to update user"); // Notify user about the error
+        }
+    };
+    
     return (
         <div>
             <Form {...form}>

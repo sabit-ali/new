@@ -9,7 +9,6 @@ import {
 import {
   Threads,
   UploadVideo,
-  ContactUs,
 } from './index.ts'
 import Signup from './auth/sign-up/Signup.tsx'
 import Login from './auth/login/Login.tsx'
@@ -22,6 +21,12 @@ import RequireAuth from './utils/AuthRequires.tsx'
 import OnePage from './app/threads/OnePage.tsx'
 import OneVideo from './app/uploadVideo/OneVideo.tsx'
 import ProfileUpdate from './auth/update/profile/ProfileUpdate.tsx'
+import Profile from './app/Profile/Profile.tsx'
+import { ThemeProvider } from "@/components/theme-provider"
+
+
+
+
 
 const router = createBrowserRouter(
 
@@ -36,12 +41,18 @@ const router = createBrowserRouter(
       <Route path='/onevideo/:videoId' element={<OneVideo />} />
       <Route path='/sign-up' element={<Signup />} />
       <Route path='/sign-in' element={<Login />} />
-      <Route path='/contact-us' element={<ContactUs />} />
 
+
+      
+
+      <Route path='/upload-video' element={<UploadVideo />} />
+       
+  
+      
     <Route element={<RequireAuth/>}>
       <Route path='/upload-thread' element={<UploadThread />} />
-      <Route path='/profile' element={<ProfileUpdate />} />
-      <Route path='/upload-video' element={<UploadVideo />} />
+      <Route path='/profile-update' element={<ProfileUpdate />} />
+      <Route path='/profile/:username' element={<Profile />}/>
     </Route>
 
 
@@ -52,8 +63,10 @@ const router = createBrowserRouter(
   )
 )
 ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
   <Provider store={store}>
       <RouterProvider router={router} />
   </Provider>
+</ThemeProvider>
   
 )

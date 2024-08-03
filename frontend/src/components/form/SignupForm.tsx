@@ -26,7 +26,6 @@ export const SignupForm = () => {
     })
 
     const onSubmit = async (data:z.infer<typeof SignUpSchema>)=>{
-      console.log("data",data)
       const formData = new FormData()
       formData.append("avatar",avatar[0])
       formData.append("name",data.name)
@@ -40,7 +39,6 @@ export const SignupForm = () => {
           toast.success("User registerd successfully")
         })
       } catch (error:any) {
-        console.log("error not Registing",error.response.data)
         toast.error(error.response?.data?.message)
       }
     }

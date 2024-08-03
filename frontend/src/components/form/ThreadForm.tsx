@@ -13,11 +13,12 @@ import { useNavigate } from 'react-router-dom'
 import { ThreadSchema } from '@/Schema/ThreadSchema'
 import { ChangeEvent, useState } from 'react'
 import { Textarea } from '../ui/textarea'
+import Accesstoken from '@/utils/AccessToken'
 
 export default function ThreadForm() {
   
   const [avatar, setImage] = useState<File[]>([])
-
+  const accessToken = Accesstoken()
   const [isLoading , setIsLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -57,17 +58,22 @@ export default function ThreadForm() {
     dataForm.append("avatar",avatar[0])
     
     try {
-      await axios.post('/api/v1/thread/upload-thread',dataForm)
+      await axios.post('/api/v1/thread/upload-thread',dataForm,{
+        headers: {
+          Authorization: `Bearer ${accessToken}` // Set the Authorization header
+      },
+      withCredentials: true, // Include credentials if needed
+      })
       .then((data)=>{
         setIsLoading(false)
-        console.log("data",data)
+      
         toast.success(data.data.message)
         navigate("/threads")
       })
     } catch (error:any) {
       setIsLoading(false)
       toast.error(error.message)
-      console.log("error not Registing",error)
+   
     }
   }
 

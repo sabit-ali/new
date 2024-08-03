@@ -30,6 +30,26 @@ export const userSchema = new mongoose.Schema({
             ref:'Video'
         }
     ],
+    threads_info :[
+        {
+            type : mongoose.Types.ObjectId,
+            ref:'Thread'
+        }
+    ],
+    video_info : [
+        {
+            type : mongoose.Types.ObjectId,
+            ref:"Video"
+        }
+    ],
+    follow : {
+        type : mongoose.Types.ObjectId,
+        ref:"FeatureUser"
+    },
+    like_info : [{
+        type :mongoose.Types.ObjectId,
+        ref:"FeatureUser"
+    }],
     password : {
         type : String,
         required : [true, 'password is required!']
@@ -90,5 +110,6 @@ userSchema.methods.generateRefreshToken = function(){
         }
     )
 }
+
 
 export const User = mongoose.model('User',userSchema)

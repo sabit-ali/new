@@ -11,8 +11,11 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setAuth } from '@/store/auth/authSlice'
+import apiClient from '@/utils/ApiClient'
 
 export default function LoginForm() {
+
+
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -28,19 +31,25 @@ export default function LoginForm() {
       const onSubmit = async (data:z.infer<typeof LoginSchema>)=>{
   
         try {
-         const response =  await axios.post('api/v1/users/login',data)
+         const response =  await axios.post('api/v1/users/login',data,{
+          headers: {
+            Authorization: `Bearer ` // Set the Authorization header
+        },
+        withCredentials: true, // Include credentials if needed
+         })
 
             const isData = {
                 token : response.data.data.accessToken,
+                refreshToken : response.data.data.refreshToken,
                 user :  response.data.data.user
             }
             dispatch(
                   setAuth(isData)
                 )
+                
           toast.success(response.data.message)
          navigate("/")
         } catch (error:any) {
-          console.log("error not Registing",error)
           toast.error(error.message)
         }
       }

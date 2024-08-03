@@ -4,7 +4,7 @@ const initialState = {
 
         user : null,
         token : null ,
-        threads : []
+        refreshToken : null
         
 
 }
@@ -16,15 +16,15 @@ const AuthSlice =  createSlice(
         reducers : {
             setAuth : (state,action)=>{
                     state.user =  action.payload.user,
-                    state.token = action.payload.token    
+                    state.token = action.payload.token,
+                    state.refreshToken = action.payload.refreshToken 
+
             },
             logOut : (state)=>{
                 state.token = null,
-                state.user = null
+                state.user = null,
+                state.refreshToken = null
             },
-           setThread :  (state,action)=>{
-            state.threads = action.payload
-           }
         }
     }
 )

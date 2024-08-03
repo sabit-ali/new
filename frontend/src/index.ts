@@ -1,5 +1,5 @@
 
-import ContactUs from "./app/contactUs/ContactUs";
+
 import Layout from "./app/Layout";
 import Threads from "./app/threads/Threads";
 import UploadVideo from "./app/uploadVideo/UploadVideo";
@@ -18,5 +18,5 @@ export {
     TopBar,
     BootomBar,
     Layout,
-    ContactUs
+
 }

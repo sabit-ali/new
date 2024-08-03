@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 
@@ -25,10 +25,8 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
             ref : "User"
         }
     ],
-    like : {
-        type : mongoose.Types.ObjectId,
-        ref : "User"
-    }
+    likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
+    dislikes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
 
 },{timestamps:true})
 

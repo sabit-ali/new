@@ -13,9 +13,7 @@ export default function LeftSide() {
           <NavLink to={'/upload-video'}
             className={({ isActive }) => `${isActive ? " text-red-500" : ""}`}
           >Upload-video</NavLink>
-          <NavLink to={'/profile'}
-            className={({ isActive }) => `${isActive ? " text-red-500" : ""}`}
-          >Update-profile</NavLink>
+
 
         </ul>
 

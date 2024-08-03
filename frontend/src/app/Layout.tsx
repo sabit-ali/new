@@ -4,10 +4,12 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 export default function layout() {
   return (
     <>
     <div className=' w-full h-screen'>
+
     <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -22,12 +24,13 @@ export default function layout() {
 
       />
       <TopBar />
+      
 
       <main className='flex flex-row justify-start'>
         <LeftSide />
         <section className=' flex w-full'>
           <div className=' flex flex-col mx-auto  w-full overflow-y-auto'>
-
+          
             <Outlet />
 
           </div>
@@ -36,7 +39,7 @@ export default function layout() {
       </main>
 
     
-      <div className=' bottom-5 bg-transparent bg-violet-200 fixed w-full'>
+      <div className=' bottom-[0] dark:bg-white/60 bg-white/50 fixed w-full '>
       <BootomBar />
       </div>
       

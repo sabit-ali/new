@@ -36,7 +36,9 @@ const videoSchema = new Schema(
                 type : mongoose.Types.ObjectId,
                 ref: "User"
             }
-        ]
+        ],
+        likes: [{ type: Schema.Types.ObjectId, ref: 'VideoLike' }],
+        dislikes: [{ type: Schema.Types.ObjectId, ref: 'VideoLike' }],
 
     }, 
     {
