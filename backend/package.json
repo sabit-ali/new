@@ -4,7 +4,7 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.mjs",
+    "start": "node index.mjs",
     "build": "npm run build",
     "render-build": "npm install && npm run build"
   },
