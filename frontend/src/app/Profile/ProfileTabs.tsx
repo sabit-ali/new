@@ -1,5 +1,6 @@
 import { CardIs } from "@/components/card/Card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Link } from "react-router-dom";
 
 interface Thread {
@@ -23,6 +24,8 @@ interface ProfileTabsProps {
 }
 
 export default function ProfileTabs({ mythreads, videoposts }: ProfileTabsProps) {
+
+    
   return (
     <div className="w-full mx-auto flex justify-center">
       <Tabs defaultValue="account" className="w-full flex flex-col justify-center items-center">
@@ -42,11 +45,11 @@ export default function ProfileTabs({ mythreads, videoposts }: ProfileTabsProps)
         </TabsList>
         <TabsContent value="account" className="w-full">
           <h1>My Threads</h1>
-          <div className=" w-full md:max-w-6xl py-2 grid  md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
+          <div className=" w-full md:max-w-6xl py-2 grid md:grid-cols-3 lg:grid-cols-4 overflow-hidden">
             {mythreads.map((thread) => (
               <div
                 key={thread._id}
-                className="w-auto px-2 "
+                className="w-full relative h-screen "
               >
                 <Link to={`/onethread/${thread._id}`}>
                   <CardIs

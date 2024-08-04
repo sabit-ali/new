@@ -96,8 +96,9 @@ export const getAllVideos = asyncHandler(async (req,res)=>{
 
 
 export const OneVideFetch = asyncHandler(async (req, res)=>{
-    const {videoId} =  req.query
+    const {videoId,postId} =  req.query
 
+    console.log("postId",postId)
     const video = await Video.findById(videoId)
 
     if(!video) return res.status(400).json({

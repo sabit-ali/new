@@ -17,11 +17,11 @@ interface Props{
 
 export const CardIs = ({title,description,avatar}:Props) => {
     return (
-<Card className="w-full md:w-auto max-w-xs md:max-w-sm lg:max-w-md mx-auto">
+<Card className="w-full md:w-auto max-w-xs md:max-w-sm lg:max-w-md mx-auto overflow-hidden">
   <CardHeader>
     <CardContent>
       <img
-        className="w-full h-40 md:h-48 lg:h-60 object-cover"
+        className="w-full h-full object-cover"
         src={avatar}
         alt={title}
       />
