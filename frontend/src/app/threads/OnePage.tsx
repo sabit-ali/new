@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 import Accesstoken from '@/utils/AccessToken';
 import Socket from '@/utils/Socket';
-import apiClient from '@/utils/ApiClient';
+
 
 interface Post {
     _id: string;

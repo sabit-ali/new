@@ -1,10 +1,10 @@
-import { ChangeEvent,MouseEvent, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { Button } from "../ui/button"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
-import { useForm } from "react-hook-form"
+import {  useForm } from "react-hook-form"
 import Accesstoken from "@/utils/AccessToken"
 
 export default function UpdateAvatar() {
@@ -14,6 +14,8 @@ export default function UpdateAvatar() {
 
     const form = useForm()
     const onSubmit = async (e:any)=>{
+
+        e.preventDefault()
 
         const formData = new FormData()
         formData.append("avatar",file[0])
